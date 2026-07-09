@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>IG Feed 4:5 - Lomba Menulis Cerpen (Modern Minimalist)</title>
+  
+  <!-- Font Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome untuk Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & VARIABLES (ELEGANT MINIMALIST)
+       ========================================================================== */
+    :root {
+      --maroon: #7B1113;      
+      --orange: #F38F2F;      
+      --dark: #161616;        
+      --light: #F9F9F9;       
+      --white: #FFFFFF;       
+      
+      --font-main: 'Montserrat', sans-serif;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #0F0F0F; 
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 50px;
+      padding: 100px 50px; /* Ditambah padding atas agar tidak tertutup tombol */
+      font-family: var(--font-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       SLIDE CONTAINER (4:5 RATIO)
+       ========================================================================== */
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      background-color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    /* ==========================================================================
+       SAFE ZONE (1:1 RATIO, 1080x1080)
+       ========================================================================== */
+    .safe-zone {
+      position: absolute;
+      top: 135px;
+      left: 0;
+      width: 1080px;
+      height: 1080px;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    /* Header & Footer Areas */
+    .slide-header, .slide-footer {
+      position: absolute;
+      left: 0;
+      width: 1080px;
+      height: 135px;
+      display: flex;
+      align-items: center;
+      padding: 0 80px;
+      z-index: 20;
+    }
+    .slide-header { top: 0; justify-content: flex-start; }
+    .slide-footer { bottom: 0; justify-content: space-between; }
+
+    .brand-logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Pagination (Dots) */
+    .pagination {
+      display: flex;
+      gap: 12px;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.3;
+      transition: 0.3s;
+    }
+    .dot.active {
+      opacity: 1;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* ==========================================================================
+       TYPOGRAPHY
+       ========================================================================== */
+    .text-overline {
+      font-size: 20px;
+      letter-spacing: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+      color: var(--orange);
+    }
+    .text-h1 {
+      font-size: 85px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+    .text-h2 {
+      font-size: 65px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 60px;
+    }
+    .text-body {
+      font-size: 28px;
+      line-height: 1.6;
+      font-weight: 400;
+      letter-spacing: -0.3px;
+    }
+
+    /* ==========================================================================
+       CUSTOM SLIDE STYLES
+       ========================================================================== */
+    
+    /* SLIDE 1 (COVER) */
+    .cover-bg {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1080&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      z-index: 1;
+    }
+    .cover-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to top, rgba(22, 22, 22, 1) 10%, rgba(123, 17, 19, 0.7) 60%, rgba(123, 17, 19, 0.2) 100%);
+      z-index: 2;
+    }
+
+    /* SLIDE 3 (HADIAH) */
+    .prize-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 40px;
+      border-radius: 20px;
+      transition: transform 0.3s;
+    }
+    .prize-card.main {
+      background: rgba(243, 143, 47, 0.1);
+      border: 2px solid var(--orange);
+    }
+
+    /* SLIDE 4 (SYARAT) */
+    .clean-list {
+      list-style: none;
+    }
+    .clean-list li {
+      font-size: 28px;
+      font-weight: 500;
+      padding: 35px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .clean-list li:last-child {
+      border-bottom: none;
+    }
+    .clean-list li i {
+      color: var(--orange);
+      font-size: 32px;
+    }
+
+    /* UTILITIES */
+    .accent-orange { color: var(--orange); }
+    .accent-maroon { color: var(--maroon); }
+
+    /* ==========================================================================
+       FLOATING DOWNLOAD BUTTON STYLES
+       ========================================================================== */
+    .download-panel {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .btn-download {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-main);
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(243, 143, 47, 0.4);
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-download:hover {
+      background: #e07a1b;
+      transform: translateY(-2px);
+    }
+    .info-text {
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Floating Download Panel -->
+  <div class="download-panel">
+    <span class="info-text">Preview Desain Anda (1080x1350)</span>
+    <button id="downloadBtn" class="btn-download">
+      <i class="fa-solid fa-download"></i> Download Semua Slide (PNG)
+    </button>
+  </div>
+
+  <!-- ==========================================
+       SLIDE 1: COVER
+       ========================================== -->
+  <div class="slide" id="slide-1">
+    <div class="cover-bg"></div>
+    <div class="cover-overlay"></div>
+    
+    <div class="slide-header" style="color: var(--white);">
+      <div class="brand-logo">Univ. Bakrie Press</div>
+    </div>
+
+    <div class="safe-zone" style="justify-content: flex-end; padding-bottom: 80px; color: var(--white); z-index: 5;">
+      <p class="text-overline">Kompetisi 2026</p>
+      <h1 class="text-h1">LOMBA MENULIS <br>CERPEN <br><span class="accent-orange">TRAVELING</span></h1>
+      
+      <p class="text-body" style="max-width: 800px; color: rgba(255,255,255,0.85); font-weight: 300;">
+        Punya cerita seru saat liburan? Jangan biarkan hanya tersimpan di galeri. 
+        <strong style="color: var(--white); font-weight: 600;">Ubah memori indahmu menjadi karya dan cuan!</strong>
+      </p>
+    </div>
+
+    <div class="slide-footer" style="color: var(--white);">
+      <div class="pagination">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div style="font-weight: 600; letter-spacing: 2px;">SWIPE <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i></div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       SLIDE 2: PILIHAN TEMA
+       ========================================== -->
+  <div class="slide" id="slide-2" style="background: var(--light); color: var(--dark);">
+    <div class="slide-header" style="color: var(--maroon);">
+      <div class="brand-logo">@press.ubakrie</div>
+    </div>
+
+    <div class="safe-zone">
+      <p class="text-overline">01. Informasi Lomba</p>
+      <h2 class="text-h2 accent-maroon">PILIHAN TEMA</h2>
+
+      <div style="display: flex; flex-direction: column; gap: 60px; margin-top: 20px;">
+        <!-- Theme 1 -->
+        <div style="display: flex; gap: 40px; align-items: flex-start; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 50px;">
+          <span style="font-size: 110px; font-weight: 900; color: var(--orange); line-height: 0.75; letter-spacing: -5px;">01</span>
+          <div>
+            <h3 style="font-size: 42px; font-weight: 800; margin-bottom: 15px; line-height: 1.2;">Apes Tapi Seru</h3>
+            <p class="text-body" style="color: #666;">Ceritakan pengalaman traveling yang di luar rencana, tak terduga, tapi justru menjadi memori tak terlupakan.</p>
+          </div>
+        </div>
+
+        <!-- Theme 2 -->
+        <div style="display: flex; gap: 40px; align-items: flex-start;">
+          <span style="font-size: 110px; font-weight: 900; color: var(--maroon); line-height: 0.75; letter-spacing: -5px;">02</span>
+          <div>
+            <h3 style="font-size: 42px; font-weight: 800; margin-bottom: 15px; line-height: 1.2;">Ninggalin Jejak Baik<br>Pas Liburan</h3>
+            <p class="text-body" style="color: #666;">Bagaimana perjalananmu memberikan dampak positif pada lingkungan, alam, atau orang-orang yang kamu temui.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" style="color: var(--dark);">
+      <div class="pagination">
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       SLIDE 3: HADIAH & BENEFIT
+       ========================================== -->
+  <div class="slide" id="slide-3" style="background: var(--maroon); color: var(--white);">
+    <!-- Abstract subtle shapes for elegance -->
+    <div style="position: absolute; top: -150px; right: -150px; width: 600px; height: 600px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -200px; left: -200px; width: 800px; height: 800px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none;"></div>
+
+    <div class="slide-header" style="color: var(--white); opacity: 0.7;">
+      <div class="brand-logo">@press.ubakrie</div>
+    </div>
+
+    <div class="safe-zone" style="align-items: center; justify-content: center; text-align: center;">
+      <p class="text-overline">02. Apresiasi Karya</p>
+      <h2 class="text-h2" style="margin-bottom: 80px;">TOTAL HADIAH</h2>
+
+      <div style="width: 100%; max-width: 800px; text-align: left;">
+        
+        <!-- Juara 1 -->
+        <div class="prize-card main" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <p style="font-size: 20px; font-weight: 600; letter-spacing: 4px; color: var(--orange); margin-bottom: 5px;">JUARA 1</p>
+            <h3 style="font-size: 50px; font-weight: 900; color: var(--white);">Rp 700.000</h3>
+          </div>
+          <i class="fa-solid fa-trophy" style="font-size: 70px; color: var(--orange);"></i>
+        </div>
+        
+        <!-- Juara 2 & 3 -->
+        <div style="display: flex; gap: 30px;">
+          <div class="prize-card" style="flex: 1;">
+            <p style="font-size: 18px; font-weight: 600; letter-spacing: 3px; opacity: 0.7; margin-bottom: 5px;">JUARA 2</p>
+            <h3 style="font-size: 38px; font-weight: 800;">Rp 500.000</h3>
+          </div>
+          <div class="prize-card" style="flex: 1;">
+            <p style="font-size: 18px; font-weight: 600; letter-spacing: 3px; opacity: 0.7; margin-bottom: 5px;">JUARA 3</p>
+            <h3 style="font-size: 38px; font-weight: 800;">Rp 300.000</h3>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Benefits -->
+      <div style="margin-top: 80px; padding-top: 50px; border-top: 1px solid rgba(255,255,255,0.2); width: 100%; max-width: 800px; text-align: center;">
+        <p style="font-size: 20px; font-weight: 700; margin-bottom: 30px; letter-spacing: 3px; color: var(--orange);">PLUS BENEFITS:</p>
+        <div style="display: flex; justify-content: center; gap: 50px; font-size: 24px; font-weight: 500;">
+          <div style="display: flex; align-items: center; gap: 15px;"><i class="fa-solid fa-certificate" style="color: var(--orange);"></i> Digital Certificate</div>
+          <div style="display: flex; align-items: center; gap: 15px;"><i class="fa-solid fa-book" style="color: var(--orange);"></i> Naskah Dibukukan</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="slide-footer" style="color: var(--white);">
+      <div class="pagination">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       SLIDE 4: SYARAT & KETENTUAN
+       ========================================== -->
+  <div class="slide" id="slide-4" style="background: var(--white); color: var(--dark);">
+    <div class="slide-header" style="color: var(--maroon);">
+      <div class="brand-logo">@press.ubakrie</div>
+    </div>
+
+    <div class="safe-zone">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px;">
+        <div>
+          <p class="text-overline">03. Panduan Peserta</p>
+          <h2 class="text-h2 accent-maroon" style="margin-bottom: 0;">SYARAT &<br>KETENTUAN</h2>
+        </div>
+        <i class="fa-solid fa-list-check" style="font-size: 80px; color: var(--light); text-shadow: 0 10px 30px rgba(0,0,0,0.05);"></i>
+      </div>
+
+      <ul class="clean-list">
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Terbuka untuk umum, tanpa batasan profesi.
+        </li>
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Karya wajib orisinal (bukan AI atau Plagiasi).
+        </li>
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Belum pernah diterbitkan di media mana pun.
+        </li>
+        <li>
+          <i class="fa-solid fa-check"></i>
+          Panjang naskah maksimal <strong>[Jumlah]</strong> kata.
+        </li>
+      </ul>
+      
+      <!-- Minimalist Image Insert -->
+      <div style="margin-top: 50px;">
+        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1000&q=80" alt="Writing" style="width: 100%; height: 250px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
+      </div>
+    </div>
+
+    <div class="slide-footer" style="color: var(--dark);">
+      <div class="pagination">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       SLIDE 5: CARA SUBMIT & KONTAK
+       ========================================== -->
+  <div class="slide" id="slide-5" style="background: var(--dark); color: var(--white);">
+    <div class="slide-header" style="color: var(--white); opacity: 0.5;">
+      <div class="brand-logo">@press.ubakrie</div>
+    </div>
+
+    <div class="safe-zone" style="justify-content: center;">
+      
+      <!-- Submit Box -->
+      <div style="background: var(--white); color: var(--dark); padding: 70px 60px; border-radius: 30px; margin-bottom: 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.4);">
+        <h2 style="font-size: 45px; font-weight: 900; color: var(--orange); margin-bottom: 50px; letter-spacing: -1px;">CARA SUBMIT KARYA <i class="fa-solid fa-paper-plane" style="margin-left: 10px;"></i></h2>
+        
+        <div style="display: flex; flex-direction: column; gap: 35px; font-size: 26px; font-weight: 500;">
+          <div style="display: flex; gap: 25px; align-items: center;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--maroon); color: white; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;"><i class="fa-brands fa-instagram"></i></div>
+            <span>Wajib Follow IG <strong style="color: var(--maroon);">@press.ubakrie</strong></span>
+          </div>
+          <div style="display: flex; gap: 25px; align-items: center;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--maroon); color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;"><i class="fa-solid fa-link"></i></div>
+            <span>Kirim naskah via link: <br><strong style="color: var(--maroon);">[Link Pendaftaran]</strong></span>
+          </div>
+          <div style="display: flex; gap: 25px; align-items: center;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--orange); color: white; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;"><i class="fa-regular fa-clock"></i></div>
+            <span>Batas akhir pengumpulan: <br><strong style="color: var(--orange);">[Tanggal Deadline]</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div style="text-align: center;">
+        <p style="font-size: 18px; font-weight: 600; letter-spacing: 4px; color: rgba(255,255,255,0.5); margin-bottom: 20px; text-transform: uppercase;">Informasi Lebih Lanjut</p>
+        <h3 style="font-size: 38px; font-weight: 800; color: var(--white); margin-bottom: 30px;">Universitas Bakrie Press</h3>
+        
+        <div style="display: flex; justify-content: center; gap: 50px;">
+          <div style="display: flex; align-items: center; gap: 15px; font-size: 24px; font-weight: 500; opacity: 0.9;">
+            <i class="fa-brands fa-instagram" style="font-size: 36px; color: var(--orange);"></i> @press.ubakrie
+          </div>
+          <div style="display: flex; align-items: center; gap: 15px; font-size: 24px; font-weight: 500; opacity: 0.9;">
+            <i class="fa-brands fa-whatsapp" style="font-size: 36px; color: #25D366;"></i> WhatsApp Kami
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="slide-footer" style="color: rgba(255,255,255,0.3);">
+      <div class="pagination">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script for HTML2CANVAS Auto Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    document.getElementById('downloadBtn').addEventListener('click', async function() {
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses Download...';
+      btn.style.background = '#7B1113'; // Maroon while loading
+      btn.disabled = true;
+
+      const slides = document.querySelectorAll('.slide');
+      
+      for(let i = 0; i < slides.length; i++) {
+        const slide = slides[i];
+        
+        // Simpan box-shadow asli & hilangkan sementara
+        // Ini untuk mencegah masalah "garis hitam" saat dirender html2canvas
+        const originalBoxShadow = slide.style.boxShadow;
+        slide.style.boxShadow = 'none';
+
+        try {
+          const canvas = await html2canvas(slide, {
+            scale: 1, // Skala 1 memastikan ukuran pas 1080x1350 px
+            useCORS: true, // Wajib agar gambar dari Unsplash bisa dirender
+            backgroundColor: '#ffffff',
+            width: 1080,
+            height: 1350
+          });
+
+          // Buat elemen link untuk download
+          const link = document.createElement('a');
+          link.download = `IG-Feed-Slide-${i+1}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          
+          // Jeda sedikit antar slide
+          await new Promise(r => setTimeout(r, 800));
+
+        } catch (error) {
+          console.error("Error generating slide " + (i+1), error);
+          alert("Gagal memproses Slide " + (i+1));
+        }
+
+        // Kembalikan bayangan
+        slide.style.boxShadow = originalBoxShadow;
+      }
+      
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Berhasil Diunduh!';
+      btn.style.background = '#25D366'; // Green success
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = 'var(--orange)';
+        btn.disabled = false;
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
