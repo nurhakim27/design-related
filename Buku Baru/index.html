@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>IG Feed 4:5 - Buku Baru Lomba Quote</title>
+
+  <!-- Font Montserrat sesuai Design System -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM (MODERN MINIMALIST)
+       ========================================================================== */
+    :root {
+      --maroon: #7B1113;
+      --orange: #F38F2F;
+      --dark: #161616;
+      --light: #F9F9F9;
+      --white: #FFFFFF;
+
+      --font-main: 'Montserrat', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0F0F0F;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 50px;
+      padding: 100px 50px;
+      font-family: var(--font-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* SLIDE CONTAINER (4:5 RATIO) */
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      background-color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    /* SAFE ZONE (1:1 RATIO, 1080x1080) */
+    .safe-zone {
+      position: absolute;
+      top: 135px;
+      left: 0;
+      width: 1080px;
+      height: 1080px;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    /* Header & Footer Areas */
+    .slide-header,
+    .slide-footer {
+      position: absolute;
+      left: 0;
+      width: 1080px;
+      height: 135px;
+      display: flex;
+      align-items: center;
+      padding: 0 80px;
+      z-index: 20;
+    }
+
+    .slide-header {
+      top: 0;
+      justify-content: flex-start;
+    }
+
+    .slide-footer {
+      bottom: 0;
+      justify-content: space-between;
+    }
+
+    .brand-logo img {
+      height: 60px;
+      object-fit: contain;
+    }
+
+    /* Pagination (Dots) */
+    .pagination {
+      display: flex;
+      gap: 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.3;
+      transition: 0.3s;
+    }
+
+    .dot.active {
+      opacity: 1;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* TYPOGRAPHY */
+    .text-overline {
+      font-size: 20px;
+      letter-spacing: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+      color: var(--orange);
+    }
+
+    .text-h1 {
+      font-size: 85px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .text-h2 {
+      font-size: 65px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 60px;
+    }
+
+    .text-body {
+      font-size: 28px;
+      line-height: 1.6;
+      font-weight: 400;
+      letter-spacing: -0.3px;
+    }
+
+    /* UTILITIES */
+    .accent-orange {
+      color: var(--orange);
+    }
+
+    .accent-maroon {
+      color: var(--maroon);
+    }
+
+    /* FLOATING DOWNLOAD BUTTON */
+    .download-panel {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .btn-download {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-main);
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(243, 143, 47, 0.4);
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-download:hover {
+      background: #e07a1b;
+      transform: translateY(-2px);
+    }
+
+    .info-text {
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* CUSTOM SLIDE 1 STYLES */
+    .books-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+      position: relative;
+    }
+
+    .book-cover {
+      width: 270px;
+      border-radius: 10px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .book-1 {
+      z-index: 2;
+      transform: rotate(-5deg) translateY(20px);
+      margin-right: -50px;
+    }
+
+    .book-2 {
+      z-index: 3;
+      width: 310px;
+      transform: translateY(-10px);
+    }
+
+    .book-3 {
+      z-index: 1;
+      transform: rotate(5deg) translateY(20px);
+      margin-left: -50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Floating Download Panel -->
+  <div class="download-panel">
+    <span class="info-text">Preview Desain Anda (1080x1350)</span>
+    <button id="downloadBtn" class="btn-download">
+      <i class="fa-solid fa-download"></i> Download Semua Slide (PNG)
+    </button>
+  </div>
+
+  <!-- ==========================================
+       SLIDE 1: PENGUMUMAN BUKU
+       ========================================== -->
+  <div class="slide" id="slide-1" style="background: var(--light); color: var(--dark);">
+
+    <!-- Ornamen Minimalis -->
+    <div
+      style="position: absolute; top: -150px; right: -150px; width: 600px; height: 600px; border: 1px solid rgba(0,0,0,0.05); border-radius: 50%; pointer-events: none;">
+    </div>
+
+    <div class="slide-header">
+      <div class="brand-logo"><img src="Logo1.png" alt="Logo"></div>
+    </div>
+
+    <div class="safe-zone" style="justify-content: flex-start; padding-top: 60px;">
+      <p class="text-overline">Baru Rilis!</p>
+      <h1 class="text-h1 accent-maroon">TELAH TERBIT<br><span class="accent-orange">3 BUKU BARU</span></h1>
+
+      <p class="text-body" style="max-width: 850px; color: #444;">
+        Karya luar biasa hasil dari <strong>Lomba Menulis Quote 2025</strong>, yang telah diselenggarakan oleh
+        Universitas Bakrie.
+      </p>
+
+      <div class="books-container">
+        <img src="Cover1.png" alt="Buku 1" class="book-cover book-1">
+        <img src="Cover2.png" alt="Buku 2" class="book-cover book-2">
+        <img src="cover3.png" alt="Buku 3" class="book-cover book-3">
+      </div>
+    </div>
+
+    <div class="slide-footer" style="color: var(--dark);">
+      <img src="footer.png" alt="Footer"
+        style="position: absolute; left: 50%; transform: translateX(-50%); height: 45px; object-fit: contain;">
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SLIDE 2: TERIMA KASIH
+       ========================================== -->
+  <div class="slide" id="slide-2" style="background: var(--light); color: var(--dark);">
+
+    <!-- Gradasi Halus Tambahan -->
+    <div
+      style="position: absolute; top: -100px; right: -200px; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(243,143,47,0.2) 0%, rgba(243,143,47,0) 60%); border-radius: 50%; pointer-events: none; z-index: 1;">
+    </div>
+    <div
+      style="position: absolute; bottom: -200px; left: -200px; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(123,17,19,0.15) 0%, rgba(123,17,19,0) 60%); border-radius: 50%; pointer-events: none; z-index: 1;">
+    </div>
+
+    <!-- Ornamen Lingkaran Garis Sesuai Design System -->
+    <div
+      style="position: absolute; top: -150px; right: -150px; width: 600px; height: 600px; border: 1px solid rgba(0,0,0,0.05); border-radius: 50%; pointer-events: none; z-index: 2;">
+    </div>
+    <div
+      style="position: absolute; bottom: -200px; left: -200px; width: 800px; height: 800px; border: 1px solid rgba(0,0,0,0.05); border-radius: 50%; pointer-events: none; z-index: 2;">
+    </div>
+
+    <div class="slide-header" style="z-index: 20;">
+      <div class="brand-logo"><img src="Logo1.png" alt="Logo"></div>
+    </div>
+
+    <div class="safe-zone" style="align-items: center; justify-content: center; text-align: center;">
+      <i class="fa-solid fa-heart" style="font-size: 80px; color: var(--orange); margin-bottom: 40px;"></i>
+
+      <h2 class="text-h2 accent-maroon" style="font-size: 85px; margin-bottom: 40px;">TERIMA KASIH!</h2>
+
+      <p class="text-body" style="max-width: 800px; color: #444;">
+        Kami ucapkan terima kasih kepada ratusan peserta lomba yang telah berpartisipasi pada Lomba Menulis Quote 2025.
+      </p>
+    </div>
+
+    <div class="slide-footer" style="color: var(--dark);">
+      <img src="footer.png" alt="Footer"
+        style="position: absolute; left: 50%; transform: translateX(-50%); height: 45px; object-fit: contain;">
+    </div>
+  </div>
+
+  <!-- Script for HTML2CANVAS Auto Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    document.getElementById('downloadBtn').addEventListener('click', async function () {
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses Download...';
+      btn.style.background = '#7B1113';
+      btn.disabled = true;
+
+      const slides = document.querySelectorAll('.slide');
+
+      for (let i = 0; i < slides.length; i++) {
+        const slide = slides[i];
+
+        // Simpan box-shadow asli & hilangkan sementara
+        const originalBoxShadow = slide.style.boxShadow;
+        slide.style.boxShadow = 'none';
+
+        try {
+          const canvas = await html2canvas(slide, {
+            scale: 1,
+            useCORS: true,
+            backgroundColor: '#F9F9F9', // bg light sesuai design
+            width: 1080,
+            height: 1350
+          });
+
+          // Buat elemen link untuk download
+          const link = document.createElement('a');
+          link.download = `IG-Feed-BukuBaru-Slide-${i + 1}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+
+          // Jeda sedikit antar slide
+          await new Promise(r => setTimeout(r, 800));
+
+        } catch (error) {
+          console.error("Error generating slide " + (i + 1), error);
+          alert("Gagal memproses Slide " + (i + 1));
+        }
+
+        // Kembalikan bayangan
+        slide.style.boxShadow = originalBoxShadow;
+      }
+
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Berhasil Diunduh!';
+      btn.style.background = '#25D366'; // Green success
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = 'var(--orange)';
+        btn.disabled = false;
+      }, 3000);
+    });
+  </script>
+</body>
+
+</html>
