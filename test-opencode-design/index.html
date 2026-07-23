@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IG Carousel — VELORA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .slide-wrapper {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      margin-bottom: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      padding: 0 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── Background ── */
+    .slide-bg-light {
+      background: #F9F9F9;
+    }
+    .slide-bg-dark {
+      background: #161616;
+    }
+    .slide-bg-maroon {
+      background: #7B1113;
+    }
+
+    /* blob ornamen */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blob-orange {
+      background: rgba(243, 143, 47, 0.20);
+    }
+    .blob-maroon {
+      background: rgba(123, 17, 19, 0.15);
+    }
+    .blob-white {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .blob-1 { width: 500px; height: 500px; top: -120px; right: -100px; }
+    .blob-2 { width: 400px; height: 400px; bottom: -80px; left: -120px; }
+    .blob-3 { width: 300px; height: 300px; top: 40%; right: -60px; }
+    .blob-4 { width: 350px; height: 350px; bottom: 10%; right: 10%; }
+
+    /* ── Content layer ── */
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header (Logo) ── */
+    .slide-header {
+      position: absolute;
+      top: 40px;
+      left: 80px;
+      z-index: 2;
+    }
+    .slide-header img {
+      height: 42px;
+      width: auto;
+    }
+
+    /* ── Footer ── */
+    .slide-footer {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      z-index: 2;
+    }
+    .slide-footer img {
+      height: 40px;
+      width: auto;
+      opacity: 0.7;
+    }
+
+    /* ── Typography ── */
+    .text-overline {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .text-overline.maroon { color: #7B1113; }
+    .text-overline.orange { color: #F38F2F; }
+    .text-overline.white  { color: #FFFFFF; }
+    .text-overline.light  { color: rgba(255,255,255,0.5); }
+
+    .text-h1 {
+      font-size: 85px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    .text-h1.maroon { color: #7B1113; }
+    .text-h1.white  { color: #FFFFFF; }
+    .text-h1.black  { color: #161616; }
+
+    .text-h2 {
+      font-size: 65px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .text-h2.maroon { color: #7B1113; }
+    .text-h2.white  { color: #FFFFFF; }
+    .text-h2.black  { color: #161616; }
+
+    .text-body {
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.3px;
+      line-height: 1.55;
+    }
+    .text-body.dark  { color: #161616; }
+    .text-body.white { color: rgba(255,255,255,0.85); }
+    .text-body.grey  { color: rgba(22,22,22,0.7); }
+
+    .text-accent {
+      color: #F38F2F;
+    }
+
+    /* ── Button ── */
+    .btn {
+      display: inline-block;
+      padding: 18px 48px;
+      border-radius: 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      margin-top: 36px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-orange {
+      background: #F38F2F;
+      color: #FFFFFF;
+    }
+    .btn-outline {
+      background: transparent;
+      color: #FFFFFF;
+      border: 3px solid #FFFFFF;
+    }
+
+    /* ── Service items ── */
+    .service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 10px;
+    }
+    .service-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.3px;
+    }
+    .service-item i {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(243, 143, 47, 0.15);
+      color: #F38F2F;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    /* ── Stats ── */
+    .stats-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    .stat-card {
+      flex: 1;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 72px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+    .stat-number.orange { color: #F38F2F; }
+    .stat-label {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .stat-label.white { color: rgba(255,255,255,0.6); }
+    .stat-label.dark  { color: rgba(22,22,22,0.5); }
+
+    /* ── Brand ── */
+    .brand-large {
+      font-size: 180px;
+      font-weight: 900;
+      letter-spacing: -6px;
+      line-height: 0.85;
+      opacity: 0.04;
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+    .brand-large.maroon { color: #7B1113; }
+
+    /* ── Download button ── */
+    .download-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .download-bar button {
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: none;
+      background: #F38F2F;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .download-bar button:hover { opacity: 0.85; }
+    .download-bar button.secondary {
+      background: #7B1113;
+    }
+
+    /* ── Responsive preview ── */
+    @media (max-width: 1120px) {
+      .slide-wrapper { width: 540px; height: 675px; }
+      .slide { width: 540px; height: 675px; padding: 0 40px; }
+      .slide-header { top: 20px; left: 40px; }
+      .slide-header img { height: 24px; }
+      .slide-footer { bottom: 16px; }
+      .slide-footer img { height: 22px; }
+      .text-h1 { font-size: 42px; letter-spacing: -1px; }
+      .text-h2 { font-size: 32px; letter-spacing: -0.8px; }
+      .text-overline { font-size: 12px; letter-spacing: 3px; }
+      .text-body { font-size: 16px; }
+      .btn { font-size: 14px; padding: 12px 28px; margin-top: 20px; }
+      .service-item { font-size: 16px; gap: 12px; }
+      .service-item i { width: 32px; height: 32px; font-size: 14px; }
+      .stat-number { font-size: 38px; }
+      .stat-label { font-size: 11px; }
+      .brand-large { font-size: 80px; }
+      .blob-1 { width: 250px; height: 250px; }
+      .blob-2 { width: 200px; height: 200px; }
+      .blob-3 { width: 150px; height: 150px; }
+      .blob-4 { width: 180px; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="download-bar">
+    <button onclick="downloadAll()"><i class="fas fa-download"></i> Download All Slides</button>
+    <button class="secondary" onclick="downloadSingle(0)">Slide 1</button>
+    <button class="secondary" onclick="downloadSingle(1)">Slide 2</button>
+    <button class="secondary" onclick="downloadSingle(2)">Slide 3</button>
+    <button class="secondary" onclick="downloadSingle(3)">Slide 4</button>
+    <button class="secondary" onclick="downloadSingle(4)">Slide 5</button>
+  </div>
+
+  <!-- ═══════════ SLIDE 1 — COVER ═══════════ -->
+  <div class="slide-wrapper" id="slide-0">
+    <div class="slide slide-bg-dark">
+      <div class="blob blob-orange blob-1"></div>
+      <div class="blob blob-maroon blob-2"></div>
+      <div class="slide-header"><img src="Logo1.png" alt="Logo"></div>
+
+      <div class="content" style="max-width: 880px;">
+        <div class="text-overline light">VELORA</div>
+        <div class="text-h1 white">Design That<br>Matters</div>
+        <div class="text-body white" style="max-width: 700px;">
+          Modern minimalis untuk brand Anda. 
+          Wujudkan identitas visual yang tak terlupakan.
+        </div>
+        <div style="display: flex; gap: 20px; margin-top: 20px;">
+          <a class="btn btn-orange"><i class="fas fa-arrow-right"></i> Mulai</a>
+        </div>
+      </div>
+
+      <div class="brand-large maroon">VELORA</div>
+      <div class="slide-footer"><img src="footer.png" alt="footer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SLIDE 2 — TENTANG ═══════════ -->
+  <div class="slide-wrapper" id="slide-1">
+    <div class="slide slide-bg-light">
+      <div class="blob blob-orange blob-3"></div>
+      <div class="blob blob-maroon blob-4"></div>
+      <div class="slide-header"><img src="Logo1.png" alt="Logo"></div>
+
+      <div class="content" style="max-width: 860px;">
+        <div class="text-overline maroon">Tentang</div>
+        <div class="text-h2 black">Kami <span class="text-accent">VELORA</span></div>
+        <div class="text-body grey" style="margin-top: 10px;">
+          Sebuah studio desain yang percaya bahwa kesederhanaan adalah bentuk 
+          kecerdasan tertinggi. Kami membantu brand — dari startup hingga 
+          enterprise — untuk berkomunikasi dengan bahasa visual yang bersih, 
+          berani, dan berkarakter.
+        </div>
+        <div style="margin-top: 40px; display: flex; gap: 50px;">
+          <div>
+            <div style="font-size: 48px; font-weight: 900; color: #7B1113; letter-spacing: -1px;">50+</div>
+            <div style="font-size: 16px; font-weight: 700; letter-spacing: 2px; color: rgba(22,22,22,0.5); text-transform: uppercase;">Klien</div>
+          </div>
+          <div>
+            <div style="font-size: 48px; font-weight: 900; color: #7B1113; letter-spacing: -1px;">120+</div>
+            <div style="font-size: 16px; font-weight: 700; letter-spacing: 2px; color: rgba(22,22,22,0.5); text-transform: uppercase;">Proyek</div>
+          </div>
+          <div>
+            <div style="font-size: 48px; font-weight: 900; color: #7B1113; letter-spacing: -1px;">4th</div>
+            <div style="font-size: 16px; font-weight: 700; letter-spacing: 2px; color: rgba(22,22,22,0.5); text-transform: uppercase;">Berdiri</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-large maroon">VELORA</div>
+      <div class="slide-footer"><img src="footer.png" alt="footer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SLIDE 3 — LAYANAN ═══════════ -->
+  <div class="slide-wrapper" id="slide-2">
+    <div class="slide slide-bg-dark">
+      <div class="blob blob-orange blob-1"></div>
+      <div class="blob blob-white blob-2" style="background: rgba(255,255,255,0.05);"></div>
+      <div class="slide-header"><img src="Logo1.png" alt="Logo"></div>
+
+      <div class="content" style="max-width: 860px;">
+        <div class="text-overline orange">Layanan</div>
+        <div class="text-h2 white">Apa Yang<br>Kami Tawarkan</div>
+
+        <div class="service-list" style="margin-top: 10px;">
+          <div class="service-item white">
+            <i class="fas fa-pencil-ruler"></i>
+            <span>Brand Identity & Visual Strategy</span>
+          </div>
+          <div class="service-item white">
+            <i class="fas fa-desktop"></i>
+            <span>UI/UX Design & Prototyping</span>
+          </div>
+          <div class="service-item white">
+            <i class="fas fa-camera"></i>
+            <span>Social Media Content & Carousel</span>
+          </div>
+          <div class="service-item white">
+            <i class="fas fa-code"></i>
+            <span>Front-end Development (HTML/CSS)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-large" style="color: rgba(255,255,255,0.04);">VELORA</div>
+      <div class="slide-footer"><img src="footer.png" alt="footer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SLIDE 4 — ANGKA ═══════════ -->
+  <div class="slide-wrapper" id="slide-3">
+    <div class="slide slide-bg-maroon">
+      <div class="blob blob-orange blob-1"></div>
+      <div class="blob blob-white blob-2" style="background: rgba(255,255,255,0.06);"></div>
+      <div class="slide-header"><img src="Logo1.png" alt="Logo"></div>
+
+      <div class="content" style="max-width: 860px; text-align: center;">
+        <div class="text-overline white">Portfolio</div>
+        <div class="text-h2 white">Hasil Bicara<br>Lebih Keras</div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-number orange">50+</div>
+            <div class="stat-label white">Klien Puas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number orange">120+</div>
+            <div class="stat-label white">Proyek Selesai</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number orange">98%</div>
+            <div class="stat-label white">Kepuasan</div>
+          </div>
+        </div>
+
+        <div class="text-body white" style="margin-top: 40px; max-width: 680px; margin-left: auto; margin-right: auto; opacity: 0.75;">
+          "Velora membantu kami menemukan suara visual yang selama ini kami cari."
+        </div>
+        <div style="margin-top: 12px; font-size: 18px; font-weight: 700; letter-spacing: 1px; color: #F38F2F;">
+          — Andi P., CEO TechNest
+        </div>
+      </div>
+
+      <div class="brand-large" style="color: rgba(0,0,0,0.15);">VELORA</div>
+      <div class="slide-footer"><img src="footer.png" alt="footer"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SLIDE 5 — CTA ═══════════ -->
+  <div class="slide-wrapper" id="slide-4">
+    <div class="slide slide-bg-light">
+      <div class="blob blob-orange blob-3"></div>
+      <div class="blob blob-maroon blob-4"></div>
+      <div class="slide-header"><img src="Logo1.png" alt="Logo"></div>
+
+      <div class="content" style="max-width: 800px; text-align: center; margin: 0 auto;">
+        <div class="text-overline maroon">Let's Talk</div>
+        <div class="text-h2 black">Siap Membangun<br>Bersama <span class="text-accent">Velora</span>?</div>
+        <div class="text-body grey" style="max-width: 600px; margin: 10px auto 0;">
+          Satu pesan bisa mengubah arah brand Anda. 
+          Yuk, diskusikan proyek Anda dengan kami.
+        </div>
+        <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+          <a class="btn btn-orange"><i class="fas fa-envelope"></i> Hubungi Kami</a>
+        </div>
+        <div style="margin-top: 50px; display: flex; justify-content: center; gap: 30px; font-size: 28px; color: #7B1113;">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-behance"></i>
+          <i class="fab fa-dribbble"></i>
+          <i class="fab fa-linkedin-in"></i>
+        </div>
+      </div>
+
+      <div class="brand-large maroon">VELORA</div>
+      <div class="slide-footer"><img src="footer.png" alt="footer"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    const totalSlides = 5;
+
+    function getSlideEl(index) {
+      const wrapper = document.getElementById('slide-' + index);
+      return wrapper ? wrapper.querySelector('.slide') : null;
+    }
+
+    async function captureSlide(index) {
+      const slide = getSlideEl(index);
+      if (!slide) return null;
+
+      const wrapper = document.getElementById('slide-' + index);
+      const originalShadow = wrapper.style.boxShadow;
+      wrapper.style.boxShadow = 'none';
+
+      const canvas = await html2canvas(slide, {
+        scale: 1,
+        useCORS: true,
+        backgroundColor: null,
+        width: 1080,
+        height: 1350
+      });
+
+      wrapper.style.boxShadow = originalShadow;
+      return canvas;
+    }
+
+    function downloadCanvas(canvas, filename) {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    async function downloadSingle(index) {
+      const canvas = await captureSlide(index);
+      if (canvas) downloadCanvas(canvas, 'velora-slide-' + (index + 1) + '.png');
+    }
+
+    async function downloadAll() {
+      for (let i = 0; i < totalSlides; i++) {
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const canvas = await captureSlide(i);
+        if (canvas) downloadCanvas(canvas, 'velora-slide-' + (i + 1) + '.png');
+        await new Promise(resolve => setTimeout(resolve, 800));
+      }
+    }
+  </script>
+
+</body>
+</html>
