@@ -102,7 +102,7 @@ Untuk menjaga efisiensi penggunaan kuota token AI dan memberikan hasil terbaik s
    - Menyusun draf caption lengkap siap pakai di chat/dokumentasi dalam **100% Bahasa Indonesia Murni**:
      - *Hook/Headline* menarik dengan emoji pendukung.
      - Poin-poin ringkasan isi slide.
-     - Call-to-Action (CTA) & info pengumuman (seperti Lomba Cerpen Traveling).
+     - Call-to-Action (CTA) & info pengumuman (Lomba Cerpen Traveling) bisa check di pin postingan instagram Universitas Bakrie Press.
      - Deretan *hashtags* resmi (contoh: `#UniversitasBakriePress #UBBakrie #MembacaBuku...`).
 
 3. **Proses Download & Unggah ke Instagram (Tugas Pengguna - Manual):**
